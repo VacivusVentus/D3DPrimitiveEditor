@@ -24,7 +24,7 @@ void RectPrimitive::draw(ID3D11DeviceContext *m_context)
 	m_context->Draw(6, 0);
 	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	shaders.bindRectLineShaderGroup(m_context, lineStyle, isUnderCrs);
-	m_context->DrawInstanced(5, 1 + ((widthline - 1) << 1), 0, 0);
+	m_context->DrawInstanced(5, widthline, 0, 0);
 	if (isSelect)
 	{
 		shaders.bindRectRectTypeFrameShaderGroup(m_context);

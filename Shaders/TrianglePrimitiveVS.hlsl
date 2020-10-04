@@ -47,7 +47,7 @@ Output mainEllipseLine(EllipseInput inp) {
     
     float rx = coord.z + inp.inst;
     float ry = coord.w + inp.inst;
-    float2 fpoint = float2( rx * cos(stepAng * inp.index), ry * sin(stepAng * inp.index));
+    float2 fpoint = float2( rx * cos(stepAng * inp.index / 2), ry * sin(stepAng * inp.index / 2));
     float4 position = mul(float4(rotateZ(fpoint, float2(0.0,0.0)) + coord.xy, 0.0, 1.0), projectionMatrix);
     position.x = position.x - 1.0;
     position.y = position.y + 1.0;
@@ -99,7 +99,7 @@ Output mainRectLine(EllipseInput inp){
     position.y = position.y + 1.0;
     Output o;
     o.position = position;
-    o.uv = vert0[inp.index];
+    o.uv = float2(length(vert0[inp.index] - vert0[inp.index - 1]), 0.0);
     return o;
 }
 

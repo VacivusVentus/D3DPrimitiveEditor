@@ -47,7 +47,8 @@ protected:
 	bool isCorrect() const {
 		return correct;
 	};
-    void setLineStyle(ID3D11DeviceContext *m_context, LineStyle lineStyle);
+	void setLineStyle(ID3D11DeviceContext *m_context, LineStyle lineStyle);
+	void setLineStyleEllipse(ID3D11DeviceContext *m_context, LineStyle lineStyle);
 
 private:
 	ShaderPrimitive();

@@ -23,9 +23,9 @@ float4 PenMain():SV_TARGET
 
 float4 PLineMain(Input inp):SV_TARGET
 { 
-    uint l = trunc(length(inp.uv)) % 30;
+    uint l = trunc(length(inp.uv)) % 10;
 
-    float s = sin(float(l) * 3.14 / 15.0);
+    float s = sin(float(l) * 3.14 / 5.0);
     return (s > 0.0) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
 

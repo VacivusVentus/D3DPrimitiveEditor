@@ -25,9 +25,9 @@ void EllipsePrimitive::draw(ID3D11DeviceContext *m_context)
     m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     shaders.bindEllipseShaderGroup(m_context, isUnderCrs);
     m_context->DrawInstanced(3, 41, 0, 0);
-    m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-    shaders.bindEllipseLinesShaderGroup(m_context, lineStyle, isUnderCrs);
-    m_context->DrawInstanced(41, 1 + ((widthline - 1) << 1), 0, 0);
+	m_context->IASetPrimitiveTopology((lineStyle == LineStyle::Points) ? D3D11_PRIMITIVE_TOPOLOGY_POINTLIST : D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	shaders.bindEllipseLinesShaderGroup(m_context, lineStyle, isUnderCrs);
+    m_context->DrawInstanced(81, widthline, 0, 0);
     if (isSelect)
     {
         shaders.bindRectRectTypeFrameShaderGroup(m_context);
