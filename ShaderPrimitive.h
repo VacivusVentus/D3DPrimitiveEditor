@@ -57,9 +57,9 @@ private:
 	bool correct; // Инициализация шейдеров
 	ID3D11VertexShader *m_lineVS;
 
-	ID3D11PixelShader *m_lineVS_N;
-	ID3D11PixelShader *m_lineVS_Sel;
-	ID3D11PixelShader *m_lineVS_UCursor;
+	ID3D11PixelShader *m_linePS_N;
+	ID3D11PixelShader *m_linePS_Sel;
+	ID3D11PixelShader *m_linePS_UCursor;
 	ID3D11VertexShader *m_triFilVS;
 	ID3D11VertexShader *m_triFilRVS;
 
@@ -69,7 +69,7 @@ private:
 
 	ID3D11PixelShader *m_PSStyleLine_dashed;
 	ID3D11PixelShader *m_PSStyleLine_points;
-	ID3D11PixelShader *m_lineVS_ULCursor;
+	ID3D11PixelShader *m_linePS_ULCursor;
 
 
 	ID3D11VertexShader *m_frameForLineVS;

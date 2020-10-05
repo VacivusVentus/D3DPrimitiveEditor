@@ -38,17 +38,17 @@ Primitive::Primitive() : vars(RendererVars::getInstance()), cBufferVS(NULL), sha
 	memset(&buffervs, 0, sizeof buffervs);
 	del = false;
 	lineStyle = LineStyle::Solid;
-	if (!vars.createConstantBuffer(sizeof colors, vars.getDevice3D(), &cBufferPS))
+	if (!vars.createConstantBuffer(sizeof psBuffer, vars.getDevice3D(), &cBufferPS))
 	{
 		return;
 	}
 	float colorlist[] =
 	{0.5, 0.5, 0.5, 1.0, 0.0, 0.0, 0.0, 1.0};
 	angle = 0.0f;
-	memcpy(colors, colorlist, sizeof colorlist);
+	memcpy(psBuffer.colors, colorlist, sizeof colorlist);
 	auto context = vars.getDeviceContext();
 	context->PSSetConstantBuffers(0, 1, &cBufferPS);
-	context->UpdateSubresource(cBufferPS, 0, 0, colors, 0, 0);
+	context->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
 	editMode = CREATE;
 }
 
@@ -58,7 +58,7 @@ Primitive::~Primitive()
 
 void Primitive::updateResource(bool fromang)
 {
-	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, colors, 0, 0);
+	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
 	if (fromang)
 		buffervs.params[0] = angle * M_PI / 180.0;
 	else
