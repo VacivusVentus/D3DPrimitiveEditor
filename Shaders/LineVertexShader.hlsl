@@ -47,7 +47,7 @@ Output main(EllipseInput inp)
     position.y = position.y + 1.0;
     Output output;
     output.position = position;
-    output.uv = pos[inp.index] - pos[0];
+    output.uv = float2(length(pos[inp.index] - pos[0]), 0.0);
     return output;
 }
 
