@@ -26,7 +26,7 @@ const char *_linestyle_ = "linestyle";
 const char *_float_ = "float";
 const char *_angle_ = "angle";
 
-__fastcall XMLConverter::XMLConverter(char* filename, bool save) : correct(false), file(NULL)
+XMLConverter::XMLConverter(char* filename, bool save) : correct(false), file(NULL)
 {
 	int size = strlen(filename) + 10;
 	char *chrs = new char[size];

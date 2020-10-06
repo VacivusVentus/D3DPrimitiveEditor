@@ -9,7 +9,7 @@
 // ---------------------------------------------------------------------------
 class XMLConverter {
 public:
-	__fastcall XMLConverter(char* filename, bool save = true);
+	XMLConverter(char* filename, bool save = true);
 	~XMLConverter();
 
 	bool isInit() const {

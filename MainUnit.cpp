@@ -84,7 +84,7 @@ void __fastcall TMainForm::AddRectPrimitiveToolClick(TObject *Sender)
 	addPrimitiveToList();
 }
 
-void __fastcall TMainForm::addPrimitiveToList()
+void __fastcall TMainForm::addPrimitiveToList()  //Добавление элемента в список отображения всех примитивов
 {
 	TXMLPrimitiveElement *el = new TXMLPrimitiveElement(NULL);
 	el->Top = el->Height * xmlPrContainer.size();
@@ -112,7 +112,7 @@ void __fastcall TMainForm::saveAsToolClick(TObject *Sender)
 {
 	if (XMLSaveDialog->Execute())
 	{
-		filename = XMLSaveDialog->FileName;
+		filename = XMLSaveDialog->FileName;  //Сохранение в файл
 		saveToolClick(Sender);
 	}
 }

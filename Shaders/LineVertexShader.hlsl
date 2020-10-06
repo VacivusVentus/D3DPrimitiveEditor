@@ -28,7 +28,6 @@ float2 rotateZ(float2 pnt, float2 center)
     return r + center; 
 }
 
-#define A90 3.14156 / 2.0
 Output main(EllipseInput inp)
 {
     float2 pos[2];
@@ -36,13 +35,11 @@ Output main(EllipseInput inp)
     pos[1] = float2(coord.z, coord.w);
     float2 center = (pos[0] + pos[1]) * 0.5;
     float2 normal = normalize(pos[1] - pos[0]);    
-    normal.x = normal.y * sin(A90);   
-    normal.y = -normal.x * sin(A90);
+    normal.x = normal.y;   
+    normal.y = -normal.x;
     float p = (inp.inst + 1) / 2;
-    uint q = ((inp.inst & 1) == 0) ? -1 : 1;
-    p *= q;
-    normal *= p;
-    float4 position = mul(float4(rotateZ(pos[inp.index] + normal, center), 0.0, 1.0), projectionMatrix);
+    float2 q = ((inp.inst % 2) == 1) ? -normal : normal;
+    float4 position = mul(float4(rotateZ(pos[inp.index] + q * p, center), 0.0, 1.0), projectionMatrix);
     position.x = position.x - 1.0;
     position.y = position.y + 1.0;
     Output output;
