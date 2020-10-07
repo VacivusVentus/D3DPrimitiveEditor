@@ -23,9 +23,9 @@ float4 PenMain():SV_TARGET
 
 float4 PLineMain(Input inp):SV_TARGET
 { 
-    uint l = trunc(length(inp.uv)) % 30;
+    uint l = trunc(length(inp.uv) / params.x) % 60;
 
-    float s = cos(float(l) * 3.14 / 15.0);
+    float s = cos(float(l) * 3.14 / 30.0);
     return (s > 0.0) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
 
@@ -33,14 +33,14 @@ float4 PLineMain(Input inp):SV_TARGET
 
 float4 PointsLineMain(Input inp):SV_TARGET
 { 
-    uint l = trunc(length(inp.uv) * params.x) % (2);
+    uint l = trunc(length(inp.uv)) % (2);
     
     return (l == 1) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
 
 float4 PointsLineMainLR(Input inp):SV_TARGET
 { 
-    uint l = trunc(length(inp.uv) * params.x) % (2);
+    uint l = trunc(length(inp.uv)) % (2);
     
     return (l == 1) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
