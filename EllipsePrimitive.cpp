@@ -30,8 +30,9 @@ void EllipsePrimitive::draw(ID3D11DeviceContext *m_context)
     m_context->DrawInstanced(81, widthline, 0, 0);
     if (isSelect)
     {
-        shaders.bindRectRectTypeFrameShaderGroup(m_context);
-        m_context->DrawInstanced(5, 1, 0, 0);
+		m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
+		shaders.bindRectRectTypeFrameShaderGroup(m_context);
+		m_context->DrawInstanced(8, 1, 0, 0);
     }
 }
 

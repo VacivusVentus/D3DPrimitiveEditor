@@ -3,3 +3,4 @@ Win32/
 *.bin
 __history/
 *.docx
+*.res

@@ -77,20 +77,26 @@ float4 mainRectFill(uint index:SV_VERTEXID) : SV_POSITION {
 
 Output mainRectLine(EllipseInput inp){
     float2 crd = float2(coord.z + inp.inst, coord.w + inp.inst);
+    float vecX = params.y + coord.z - 1.0;
     const float2 vert[] = {
-        float2(-crd.x, -crd.y),
-        float2(crd.x, -crd.y),
-        float2(crd.x, crd.y),
-        float2(-crd.x, crd.y),
-        float2(-crd.x, -crd.y),
+        float2(-vecX, -crd.y),
+        float2(vecX, -crd.y),
+                
+        float2(crd.x, -coord.w),
+        float2(crd.x, coord.w),
+        
+        float2(vecX, crd.y),
+        float2(-vecX, crd.y),
+
+        float2(-crd.x, -coord.w),
+        float2(-crd.x, coord.w),
     };
-    float2 crd1 = float2(coord.z, coord.w);
-    const float2 vert0[] = {
-        float2(-crd1.x, -crd1.y),
-        float2(crd1.x, -crd1.y),
-        float2(crd1.x, crd1.y),
-        float2(-crd1.x, crd1.y),
-        float2(-crd1.x, -crd1.y),
+    const float vert0[] = {
+        params.y, params.y, 
+        0,0,
+        params.y,params.y,
+        0,0,        
+        params.y,params.y,
     };
 
 
@@ -99,7 +105,8 @@ Output mainRectLine(EllipseInput inp){
     position.y = position.y + 1.0;
     Output o;
     o.position = position;
-    o.uv = float2(length(vert0[inp.index] - vert0[inp.index - 1]), 0.0);
+    uint fix = inp.index - (inp.index % 2);
+    o.uv = float2(length(vert[fix + (inp.index % 2)] - vert[fix]) - vert0[inp.index], 0.0);
     return o;
 }
 
@@ -107,11 +114,17 @@ Output mainFrameforRect(EllipseInput inp)
 {
     float2 crd = float2(coord.z + 2 * inp.inst, coord.w + 2 * inp.inst);
     const float2 vert[] = {
-        float2(-crd.x, -crd.y),
-        float2(crd.x, -crd.y),
-        float2(crd.x, crd.y),
-        float2(-crd.x, crd.y),
-        float2(-crd.x, -crd.y),
+        float2(-coord.z, -crd.y),
+        float2(coord.z, -crd.y),
+                
+        float2(crd.x, -coord.w),
+        float2(crd.x, coord.w),
+        
+        float2(coord.z, crd.y),
+        float2(-coord.z, crd.y),
+
+        float2(-crd.x, -coord.w),
+        float2(-crd.x, coord.w),
     };
 
     float4 position = mul(float4(rotateZ(vert[inp.index], float2(0.0,0.0)) + coord.xy, 0.0, 1.0), projectionMatrix);
