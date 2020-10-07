@@ -48,7 +48,7 @@ Primitive::Primitive() : vars(RendererVars::getInstance()), cBufferVS(NULL), sha
 	memcpy(psBuffer.colors, colorlist, sizeof colorlist);
 	auto context = vars.getDeviceContext();
 	context->PSSetConstantBuffers(0, 1, &cBufferPS);
-    psBuffer.params[0] = widthline;
+	psBuffer.params[0] = widthline;
 	context->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
 	editMode = CREATE;
 }
@@ -59,7 +59,17 @@ Primitive::~Primitive()
 
 void Primitive::updateResource(bool fromang)
 {
-    psBuffer.params[0] = widthline; // для отработки толщины линие дожна увеличиваться и длина стиля линии(точки)
+	psBuffer.params[0] = 1.0; // для отработки толщины линие дожна увеличиваться и длина стиля линии(точки)
+	for (int i = 2; i < widthline; i++)
+	{
+		psBuffer.params[0] *= 1.0f / 30.0f + 1.0;
+	}
+	__updateResource(fromang);
+	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
+}
+
+void Primitive::__updateResource(bool fromang)
+{
 	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
 	if (fromang)
 		buffervs.params[0] = angle * M_PI / 180.0;

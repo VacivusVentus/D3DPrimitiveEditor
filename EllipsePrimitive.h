@@ -12,6 +12,7 @@ public:
 	void releasePrimitive() override;
 	void __fastcall setFirstPoint(int x, int y) override;
 	void __fastcall setSecondPoint(int x, int y) override;
+    void updateResource(bool fromang ) override;
 
 	char *getTypePrimitive() override {
 		return "έλθορ";

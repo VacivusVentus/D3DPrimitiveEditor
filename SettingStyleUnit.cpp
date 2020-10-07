@@ -62,6 +62,7 @@ void __fastcall TSettingStyleDialog::widthLineUpDownChanging(TObject *Sender, bo
     widthLineLabel->Caption = IntToStr(widthLineUpDown->Position);
     int *v = primitive->getWidthLine();
     v[0] = widthLineUpDown->Position;
+	primitive->updateResource(false);
 }
 // ---------------------------------------------------------------------------
 
@@ -69,6 +70,7 @@ void __fastcall TSettingStyleDialog::lineStyleComboBoxChange(TObject *Sender)
 {
     LineStyle *ls = primitive->getLineStyle();
     *ls = (LineStyle)lineStyleComboBox->ItemIndex;
+	primitive->updateResource(false);
 }
 // ---------------------------------------------------------------------------
 

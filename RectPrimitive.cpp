@@ -22,13 +22,13 @@ void RectPrimitive::draw(ID3D11DeviceContext *m_context)
 	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	shaders.bindRectShaderGroup(m_context, isUnderCrs);
 	m_context->Draw(6, 0);
-	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 	shaders.bindRectLineShaderGroup(m_context, lineStyle, isUnderCrs);
-	m_context->DrawInstanced(5, widthline, 0, 0);
+	m_context->DrawInstanced(8, widthline, 0, 0);
 	if (isSelect)
 	{
 		shaders.bindRectRectTypeFrameShaderGroup(m_context);
-		m_context->DrawInstanced(5, 1 + widthline, 0, 0);
+		m_context->DrawInstanced(8, 1 + widthline, 0, 0);
 	}
 }
 

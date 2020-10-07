@@ -78,11 +78,17 @@ float4 mainRectFill(uint index:SV_VERTEXID) : SV_POSITION {
 Output mainRectLine(EllipseInput inp){
     float2 crd = float2(coord.z + inp.inst, coord.w + inp.inst);
     const float2 vert[] = {
-        float2(-crd.x, -crd.y),
-        float2(crd.x, -crd.y),
-        float2(crd.x, crd.y),
-        float2(-crd.x, crd.y),
-        float2(-crd.x, -crd.y),
+        float2(-coord.z, -crd.y),
+        float2(coord.z, -crd.y),
+        
+        float2(crd.x, -coord.w ),
+        float2(crd.x, coord.w ),
+        
+        float2(coord.z, crd.y),
+        float2(-coord.z, crd.y),
+        
+        float2(-crd.x, -coord.w ),
+        float2(-crd.x, coord.w ),
     };
     float2 crd1 = float2(coord.z, coord.w);
     const float2 vert0[] = {
@@ -99,7 +105,8 @@ Output mainRectLine(EllipseInput inp){
     position.y = position.y + 1.0;
     Output o;
     o.position = position;
-    o.uv = float2(length(vert0[inp.index] - vert0[inp.index - 1]), 0.0);
+    uint ind = (inp.index / 2) + (inp.index % 2);
+    o.uv = float2(length(vert0[ind] - vert0[(inp.index / 2) ]), 0.0);
     return o;
 }
 
@@ -107,11 +114,17 @@ Output mainFrameforRect(EllipseInput inp)
 {
     float2 crd = float2(coord.z + 2 * inp.inst, coord.w + 2 * inp.inst);
     const float2 vert[] = {
-        float2(-crd.x, -crd.y),
-        float2(crd.x, -crd.y),
-        float2(crd.x, crd.y),
-        float2(-crd.x, crd.y),
-        float2(-crd.x, -crd.y),
+        float2(-coord.z, -crd.y),
+        float2(coord.z, -crd.y),
+        
+        float2(crd.x, -coord.w ),
+        float2(crd.x, coord.w ),
+        
+        float2(coord.z, crd.y),
+        float2(-coord.z, crd.y),
+        
+        float2(-crd.x, -coord.w ),
+        float2(-crd.x, coord.w ),
     };
 
     float4 position = mul(float4(rotateZ(vert[inp.index], float2(0.0,0.0)) + coord.xy, 0.0, 1.0), projectionMatrix);

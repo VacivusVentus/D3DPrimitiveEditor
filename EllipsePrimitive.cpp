@@ -101,4 +101,7 @@ bool __fastcall EllipsePrimitive::isUnderCursor(int x, int y)
     return false;
 }
 
-
+void EllipsePrimitive::updateResource(bool fromang)
+{
+	__updateResource(fromang);
+}

@@ -59,7 +59,7 @@ public:
 	// --------------------------------------------------------------------------
 	// Быстрый возврат переменных объекта
 	// ----------------------------------------------------------------------------
-	void updateResource(bool fromang = true);
+	virtual void updateResource(bool fromang = true);
 	virtual void convertRectToCoord();
 
 	float *getStyle() const
@@ -136,14 +136,15 @@ public:
 protected:
 	bool __fastcall inRect(float x, float y, float *coords);
 	void __fastcall rotateCoordToCursorAxis(int x, int y, float *&wcoord);
+	void __updateResource(bool fromang);
 
 	RendererVars &vars;
 	ShaderPrimitive &shaders;
 
 	struct
 	{
-		float colors[8];
-		uint32_t params[4];
+		float colors[8];     //цвет заполнения, цыет линии
+		float params[4];     //мноэитель толщины линии
 	}psBuffer;
 
 	ID3D11Buffer *cBufferPS;

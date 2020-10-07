@@ -2,7 +2,7 @@ cbuffer Color : register (b0)
 {
     float4 colorfill;
     float4 colorline;
-    uint4 params;
+    float4 params;
 }
 
 
@@ -23,17 +23,17 @@ float4 PenMain():SV_TARGET
 
 float4 PLineMain(Input inp):SV_TARGET
 { 
-    uint l = trunc(length(inp.uv)) % 10;
+    uint l = trunc(length(inp.uv) / params.x) % 30;
 
-    float s = sin(float(l) * 3.14 / 5.0);
+    float s = cos(float(l) * 3.14 / 15.0);
     return (s > 0.0) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
 
 float4 PointsLineMain(Input inp):SV_TARGET
 { 
-    uint l = trunc(length(inp.uv) * params.x) % (2);
+    uint l = trunc(length(inp.uv) / params.x) % 10;
     
-    return (l == 1) ? colorline : float4(0.0, 0.0, 0.0,0.0);
+    return (l == 0) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
 
 
