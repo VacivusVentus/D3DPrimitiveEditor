@@ -10,7 +10,7 @@ USEFORM("XmlPrimFarme.cpp", XMLPrimitiveElement); /* TFrame: File Type */
 USEFORM("SurfaceUnit.cpp", SurfaceRender); /* TFrame: File Type */
 USEFORM("MainUnit.cpp", MainForm);
 USEFORM("SettingStyleUnit.cpp", SettingStyleDialog);
-// ---------------------------------------------------------------------------
+//---------------------------------------------------------------------------
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
 

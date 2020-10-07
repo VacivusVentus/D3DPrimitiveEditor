@@ -105,7 +105,7 @@ Output mainRectLine(EllipseInput inp){
     position.y = position.y + 1.0;
     Output o;
     o.position = position;
-    uint fix = inp.index - (inp.index % 2);
+    uint fix = (inp.index >> 1) << 1;
     o.uv = float2(length(vert[fix + (inp.index % 2)] - vert[fix]) - vert0[inp.index], 0.0);
     return o;
 }

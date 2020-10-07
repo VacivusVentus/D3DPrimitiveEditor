@@ -62,8 +62,9 @@ void Primitive::updateResource(bool fromang)
 	buffervs.params[1] = widthline; // толщина линии для рассчета координат
 	psBuffer.params[0] = 1.0f;
 	for (int i = 2; i < widthline; i++) {
-        psBuffer.params[0] *= 1.0f + 0.1f; //перасчет выделямых пикселей
+		psBuffer.params[0] *= 1.0f + 0.1f; //перасчет выделямых пикселей
 	}
+	psBuffer.params[0] = widthline;
 	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
 	if (fromang)
 		buffervs.params[0] = angle * M_PI / 180.0;

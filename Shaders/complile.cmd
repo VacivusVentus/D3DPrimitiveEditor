@@ -21,3 +21,6 @@ fxc /T ps_5_0 /E defrender .\TrianglePrimitivePS.hlsl /Fo .\TrianglePrimitivePS.
 
 fxc /T vs_5_0 /E FrameForLine .\LineVertexShader.hlsl /Fo .\FrameForLine.bin
 fxc /T vs_5_0 /E mainFrameforRect .\TrianglePrimitiveVS.hlsl /Fo .\mainFrameforRect.bin
+
+
+fxc /T ps_5_0 /E PointsLineMainLR .\LinePixelShader.hlsl /Fo .\PointsLineMainLR.bin

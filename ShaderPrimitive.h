@@ -74,6 +74,7 @@ private:
 
 	ID3D11VertexShader *m_frameForLineVS;
 	ID3D11VertexShader *m_frameForRectTypesVS;
+	ID3D11PixelShader *m_PSStyleLine_pointsRL;
 	RendererVars &rendererVars;
 };
 #endif
