@@ -7,7 +7,8 @@ cbuffer Coord : register(b1)
     float4 coord;
     float4 params;
 };
-#define stepAng 3.14 / 20.0
+#define PI 3.14156
+#define stepAng PI / 20.0
 struct EllipseInput
 {
     uint index:SV_VERTEXID;
@@ -19,7 +20,6 @@ struct Output{
     float4 position:SV_POSITION;
     float2 uv:UV0;
 };
-#define PI 3.14156
 float2 rotateZ(float2 pnt, float2 center)
 {
     float2 w = pnt - center;
@@ -53,7 +53,10 @@ Output mainEllipseLine(EllipseInput inp) {
     position.y = position.y + 1.0;
     Output o;
     o.position = position;
-    o.uv = float2(inp.index, 0.0);
+
+    float leng = ((coord.w + coord.z) / 2) * (stepAng * inp.index / 2); 
+    //o.uv = float2(inp.index, 0.0);
+    o.uv = float2(leng, 0.0);
     return o;
 }
 

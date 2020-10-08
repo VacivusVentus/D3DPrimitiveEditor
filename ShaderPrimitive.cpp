@@ -144,7 +144,8 @@ void __fastcall ShaderPrimitive::bindEllipseLinesShaderGroup(ID3D11DeviceContext
 		m_context->PSSetShader(m_linePS_ULCursor, NULL, NULL);
 		return;
 	}
-	setLineStyleEllipse(m_context, lineStyle);
+	//setLineStyleEllipse(m_context, lineStyle);
+	setLineStyle(m_context, lineStyle);
 }
 
 void __fastcall ShaderPrimitive::bindRectShaderGroup(ID3D11DeviceContext *m_context, bool undercursor)
