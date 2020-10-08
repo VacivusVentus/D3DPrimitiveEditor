@@ -66,10 +66,14 @@ void Primitive::updateResource(bool fromang)
 	}
 	psBuffer.params[0] = widthline;
 	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
-	if (fromang)
+	if (fromang)         //Обновление значения угла из градусов в радианы или обратно
+	{                     //для отображения, редактирования и использование в шейдерах
 		buffervs.params[0] = angle * M_PI / 180.0;
+	}
 	else
+	{
 		angle = buffervs.params[0] * 180.0 / M_PI;
+    }
 
 	vars.getDeviceContext()->UpdateSubresource(cBufferVS, 0, 0, &buffervs, 0, 0);
 }

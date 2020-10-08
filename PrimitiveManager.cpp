@@ -74,7 +74,7 @@ void PrimitiveManager::drawPrimitives(HWND handle)
 void __fastcall PrimitiveManager::leftMouseDown(int x, int y, bool shift)
 {
 
-	if (operationID == OperationID::ADDNEWPRIMITIVE)
+	if (operationID == OperationID::ADDNEWPRIMITIVE) //Создание нового примитива
 	{
 		current->setFirstPoint(x, y);
 
@@ -216,7 +216,7 @@ void __fastcall PrimitiveManager::resetCursor(int x, int y)
 	leftButtonDown = false;
 }
 
-void PrimitiveManager::updateGroupSelect()
+void PrimitiveManager::updateGroupSelect() // Расчёт рамки облости выделенных примитивов
 {
 	float coord[4] =
 	{0};
@@ -252,13 +252,13 @@ void __fastcall PrimitiveManager::getMaxXY(float &x, float &y)
 	}
 }
 
-void __fastcall PrimitiveManager::getSelectedRect(float *&rect)
-{
+void __fastcall PrimitiveManager::getSelectedRect(float *&rect) //Определение максимальные и минимальные координаты,
+{                                                       //занимаемые примитивом
 	if (selected.empty())
 	{
 		return;
 	}
-	memset(rect, 0, sizeof(float) << 2);
+	memset(rect, 0, sizeof(float) << 2); // обнуление массива для заполнения мин/макс координат
 	rect[0] = 1000000.0;
 	rect[1] = 1000000.0;
 	for (auto p : selected)

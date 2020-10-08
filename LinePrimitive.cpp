@@ -89,13 +89,15 @@ bool __fastcall LinePrimitive::isUnderCursor(int x, int y)
 
 void LinePrimitive::detectNearOperation(float x, float y)
 {
+    //для линии угол поворота не нужен, как и растягивание по граням, зато нужно изменять координаты точек
 	float d[] =
 	{buffervs.coord[0] - x, buffervs.coord[1] - y, buffervs.coord[2] - x, buffervs.coord[3] - y};
 	float length = std::sqrt(std::pow(2.0f * center[0], 2) + std::pow(2.0f * center[1], 2));
-	editMode = EditMode::Move;
+	editMode = EditMode::Move;  // по  умолчанию перемещение примитива, как самый базовый способ редактирования
 	// левая/правая точка указаны условно.
 	// следует понимать под левой начальную точку, а по правой: конечную
-	float lftLength = std::sqrt(d[0] * d[0] + d[1] * d[1]);
+	float lftLength = std::sqrt(d[0] * d[0] + d[1] * d[1]); // чем меньше длина вектора от точки отрезка к координатам курсора
+                                                     //тем выше вероятность, что выбрана точка для изменения координат
 	if (lftLength / length < 0.1)
 	{
 		editMode = EditMode::LChgXY0;
@@ -109,27 +111,28 @@ void LinePrimitive::detectNearOperation(float x, float y)
 
 void __fastcall LinePrimitive::dragEditMouse(float x, float y)
 {
+	//изменения координат курсора
 	float dx = x - startEditXY[0];
 	float dy = y - startEditXY[1];
 
 	float convert[2];
 	float *_conv = convert;
-	rotateCoordToCursorAxis(dx, dy, _conv);
+	rotateCoordToCursorAxis(dx, dy, _conv); //Вычисляем координаты отностительно оси примитива
 
-	if (editMode == EditMode::Move || editMode == EditMode::LChgXY0)
+	if (editMode == EditMode::Move || editMode == EditMode::LChgXY0)  // изменеие координт и/или перемещение для начальной т-ки
 	{
 		buffervs.coord[0] += convert[0];
 		buffervs.coord[1] += convert[1];
 	}
 
-	if (editMode == EditMode::Move || editMode == EditMode::LChgXY1)
+	if (editMode == EditMode::Move || editMode == EditMode::LChgXY1) // изменеие координт и/или перемещение для конечной т-ки
 	{
 		buffervs.coord[2] += convert[0];
 		buffervs.coord[3] += convert[1];
 	}
 	startEditXY[0] = x;
 	startEditXY[1] = y;
-	updateResource();
+	updateResource();//обновление буфера для шейдера
 }
 
 void __fastcall LinePrimitive::movePrimitiveRatherPoint(float divX, float divY)
@@ -141,6 +144,7 @@ void __fastcall LinePrimitive::movePrimitiveRatherPoint(float divX, float divY)
 	buffervs.coord[1] += begin[1];
 	buffervs.coord[2] += begin[0];
 	buffervs.coord[3] += begin[1];
+	updateResource(false);
 }
 
 void __fastcall LinePrimitive::rotatePrimitiveRatherPoint(float *lcenter, float angle)

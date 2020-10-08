@@ -39,16 +39,19 @@ public:
 
 	/*
 	 */
+	 //Вычисляем расположен ли курсор в прямоугольной области примитива
 	static EditMode __fastcall dectRectEditMode(float x, float y, float *coord, float *center);
+	/// Обработка действий пользователем, если объек выбран для редактирования
 	virtual void __fastcall startEditPoint(float x, float y);
 	virtual void __fastcall dragEditMouse(float x, float y);
+	// Определяем находиься ли примитив под курсором
 	virtual bool __fastcall isUnderCursor(int x, int y) = NULL;
-	virtual const char *type() = NULL;
+	virtual const char *type() = NULL; //Тип примитива
 	virtual void __fastcall rotatePrimitiveRatherPoint(float *center, float angle);
 
 	virtual float *getCoords()
 	{
-		reCalcCoord();
+		reCalcCoord(); //расчёт координыти левого верхеного угла и правого нижнего угла
 		return &rectCoord[0];
 	}
 	virtual void __fastcall movePrimitiveRatherPoint(float divX, float divY);
@@ -59,8 +62,11 @@ public:
 	// --------------------------------------------------------------------------
 	// Быстрый возврат переменных объекта
 	// ----------------------------------------------------------------------------
-	void updateResource(bool fromang = true);
-	virtual void convertRectToCoord();
+	void updateResource(bool fromang = true); //Обновление буферов для шейдеров, а также конвертация угла
+	virtual void convertRectToCoord();     // перерасчёт перемещения центра(или координат точек для отрезка), а также
+										  //изменнения угла поворота примитива, при вращение примитива относительно точки
+										  //для окружности и прямоугольника наследуется из класса Primitive,
+										  //а для линии переопределяется метод
 
 	float *getStyle() const
 	{
@@ -142,25 +148,29 @@ protected:
 
 	struct
 	{
-		float colors[8];
-		uint32_t params[4];
+		float colors[8];    // цве заливки и цвет линии
+		uint32_t params[4]; // Множитель для перерасчёта длины отрезка в зависимости от толщины линии
 	}psBuffer;
 
 	ID3D11Buffer *cBufferPS;
 	int widthline;
-	bool del;
-	bool isUnderCrs;
-	bool isSelect;
-	LineStyle lineStyle;
-	float angle;
+	bool del;   //Примитив необходимо удалить
+	bool isUnderCrs; //Курсор наведен на примитив
+	bool isSelect;  //Объект выбран или один из выбранных примитивов
+	LineStyle lineStyle; //Номер стиля линии
+	float angle; //угол поворота пимитива
 	float center[4]; // центр x, y(0, 1) Половина длин по осям dx, dy(2, 3)
-	float startEditXY[2];
-	float rectCoord[4];
+	float startEditXY[2]; // координаты курсора мыши при нажатие левой кнопки мыши, а также последнее положение курсора
+						 //после выполнения пермещения, поворота и редактирование размеров, при услови, что до нажатия
+						  // курсор был наведён на примитив
+	float rectCoord[4]; // координаты окружности и прямоуголбника по верхнему левому углу и по нижниму правому.
 
 	struct
 	{
-		float coord[4]; // координаты линии
-		float params[4]; // уголол, резерв, резерв, резерв
+		float coord[4]; // координаты линии / Для прямоугольника и окружности x, y - координаты центра
+                        //z,w - наименьшие расстояие от центра до грани по оси x и по оси y соотвтетственно
+		float params[4]; // уголол, толщина линии для перерасчёта координат начала линий для обвода рамки окружности
+		 // и прямоугольника резерв, резерв
 	}
 
 	buffervs;

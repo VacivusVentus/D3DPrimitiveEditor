@@ -207,6 +207,7 @@ void __fastcall TMainForm::SurfaceRender1RendererMouseDown(TObject *Sender, TMou
 		int dx = X;
 		int dy = Y;
 		SurfaceRender1->getDivXY(dx, dy);
+		//GetAsyncKeyState - проверяем нажата ли клавиша Ctrl (проверяется как левая, так и правая)
 		primitiveManager->leftMouseDown(dx, dy, GetAsyncKeyState(VK_LCONTROL) | GetAsyncKeyState(VK_RCONTROL));
 	}
 }

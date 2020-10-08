@@ -19,16 +19,17 @@ EllipsePrimitive::EllipsePrimitive() : Primitive(), vars(RendererVars::getInstan
 
 void EllipsePrimitive::draw(ID3D11DeviceContext *m_context)
 {
-
+	//рисуем эллипс
     m_context->VSSetConstantBuffers(1, 1, &cBufferVS);
-    m_context->PSSetConstantBuffers(0, 1, &cBufferPS);
-    m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    shaders.bindEllipseShaderGroup(m_context, isUnderCrs);
-    m_context->DrawInstanced(3, 41, 0, 0);
+	m_context->PSSetConstantBuffers(0, 1, &cBufferPS);
+	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	shaders.bindEllipseShaderGroup(m_context, isUnderCrs);
+	m_context->DrawInstanced(3, 41, 0, 0);
+    //Рисуем контур эллипса
 	m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 	shaders.bindEllipseLinesShaderGroup(m_context, lineStyle, isUnderCrs);
     m_context->DrawInstanced(81, widthline, 0, 0);
-    if (isSelect)
+	if (isSelect)  //Если примитив выбран, то отрисовываем прямоугольный контур
     {
 		m_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 		shaders.bindRectRectTypeFrameShaderGroup(m_context);
@@ -87,13 +88,13 @@ bool __fastcall EllipsePrimitive::isUnderCursor(int x, int y)
     {rcoord[0], rcoord[1]};
     delete[]rcoord;
 
-    if (isSelect)
+    if (isSelect) // редактирование в прямоугольной области окружности
     {
         //detectNearOperation(sndp[0], sndp[1]);
 		editMode = dectRectEditMode( sndp[0], sndp[1],coord, center);
         return true;
     }
-    float test = (cx * cx) / (rx * rx) + (cy * cy) / (ry * ry);
+    float test = (cx * cx) / (rx * rx) + (cy * cy) / (ry * ry); //Воспользуемся уровнением эллипса
     if (test <= 1.0)
     {
 		editMode = dectRectEditMode( sndp[0], sndp[1], coord, center);

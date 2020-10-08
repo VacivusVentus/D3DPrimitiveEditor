@@ -8,16 +8,12 @@ fxc /T ps_5_0 /E mainlineUnderCursor .\LinePixelShader.hlsl /Fo .\mainlineUnderC
 
 fxc /T ps_5_0 /E PenMain .\LinePixelShader.hlsl /Fo .\PenMain.bin
 fxc /T ps_5_0 /E PLineMain .\LinePixelShader.hlsl /Fo .\PLineMain.bin
-fxc /T ps_5_0 /E PointsLineMain .\LinePixelShader.hlsl /Fo .\PointsLineMain.bin
 
 fxc /T vs_5_0 /E mainEllipseFill .\TrianglePrimitiveVS.hlsl /Fo .\TrianglePrimitiveVSFill.bin
 fxc /T vs_5_0 /E mainEllipseLine .\TrianglePrimitiveVS.hlsl /Fo .\TrianglePrimitiveVSELINE.bin
 
 fxc /T vs_5_0 /E mainRectFill .\TrianglePrimitiveVS.hlsl /Fo .\TrianglePrimitiveRVSFill.bin
 fxc /T vs_5_0 /E mainRectLine .\TrianglePrimitiveVS.hlsl /Fo .\TrianglePrimitiveRVSLine.bin
-
-fxc /T ps_5_0 /E defrender .\TrianglePrimitivePS.hlsl /Fo .\TrianglePrimitivePS.bin
-
 
 fxc /T vs_5_0 /E FrameForLine .\LineVertexShader.hlsl /Fo .\FrameForLine.bin
 fxc /T vs_5_0 /E mainFrameforRect .\TrianglePrimitiveVS.hlsl /Fo .\mainFrameforRect.bin
