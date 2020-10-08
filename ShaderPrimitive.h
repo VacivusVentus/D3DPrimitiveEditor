@@ -48,7 +48,6 @@ protected:
 		return correct;
 	};
 	void setLineStyle(ID3D11DeviceContext *m_context, LineStyle lineStyle);
-	void setLineStyleEllipse(ID3D11DeviceContext *m_context, LineStyle lineStyle);
 
 private:
 	ShaderPrimitive();
@@ -68,7 +67,6 @@ private:
 	ID3D11VertexShader *m_triFilRVS_line;
 
 	ID3D11PixelShader *m_PSStyleLine_dashed;
-	ID3D11PixelShader *m_PSStyleLine_points;
 	ID3D11PixelShader *m_linePS_ULCursor;
 
 

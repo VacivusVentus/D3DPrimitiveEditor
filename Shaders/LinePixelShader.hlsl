@@ -29,15 +29,6 @@ float4 PLineMain(Input inp):SV_TARGET
     return (s > 0.0) ? colorline : float4(0.0, 0.0, 0.0,0.0);
 }
 
-
-
-float4 PointsLineMain(Input inp):SV_TARGET
-{ 
-    uint l = trunc(length(inp.uv)) % (2);
-    
-    return (l == 1) ? colorline : float4(0.0, 0.0, 0.0,0.0);
-}
-
 float4 PointsLineMainLR(Input inp):SV_TARGET
 { 
     uint l = trunc(length(inp.uv / params.x)) % 2;

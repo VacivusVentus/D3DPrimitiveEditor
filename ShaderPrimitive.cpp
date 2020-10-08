@@ -9,8 +9,8 @@
 
 ShaderPrimitive::ShaderPrimitive() : rendererVars(RendererVars::getInstance()), m_lineVS(NULL), m_linePS_N(NULL),
 	m_linePS_Sel(NULL), m_linePS_UCursor(NULL), m_triFilVS(NULL), m_penmainPS(NULL), m_triFilVS_line(NULL),
-	correct(false), m_triFilRVS_line(NULL), m_PSStyleLine_dashed(NULL), m_PSStyleLine_points(NULL),
-	m_linePS_ULCursor(NULL), m_frameForLineVS(NULL), m_frameForRectTypesVS(NULL), m_PSStyleLine_pointsRL(NULL)
+	correct(false), m_triFilRVS_line(NULL), m_PSStyleLine_dashed(NULL), m_linePS_ULCursor(NULL), m_frameForLineVS(NULL),
+	m_frameForRectTypesVS(NULL), m_PSStyleLine_pointsRL(NULL)
 {
 	ID3D11Device *m_device = rendererVars.getDevice3D();
 	if (!createVS(L"LINE_VS", m_device, &m_lineVS))
@@ -53,10 +53,6 @@ ShaderPrimitive::ShaderPrimitive() : rendererVars(RendererVars::getInstance()), 
 		return;
 	}
 	if (!createPS(L"PS_LINE_DASHED", m_device, &m_PSStyleLine_dashed))
-	{
-		return;
-	}
-	if (!createPS(L"PS_LINE_POINTS", m_device, &m_PSStyleLine_points))
 	{
 		return;
 	}
@@ -144,7 +140,6 @@ void __fastcall ShaderPrimitive::bindEllipseLinesShaderGroup(ID3D11DeviceContext
 		m_context->PSSetShader(m_linePS_ULCursor, NULL, NULL);
 		return;
 	}
-	//setLineStyleEllipse(m_context, lineStyle);
 	setLineStyle(m_context, lineStyle);
 }
 
@@ -200,17 +195,6 @@ void ShaderPrimitive::setLineStyle(ID3D11DeviceContext *m_context, LineStyle lin
 	}
 }
 
-void ShaderPrimitive::setLineStyleEllipse(ID3D11DeviceContext *m_context, LineStyle lineStyle)
-{
-	if (lineStyle == Dashed || lineStyle == Points)
-	{
-		m_context->PSSetShader(m_PSStyleLine_points, NULL, NULL);
-	}
-	else
-	{
-		m_context->PSSetShader(m_penmainPS, NULL, NULL);
-	}
-}
 
 void ShaderPrimitive::releaseAllShaders()
 {
@@ -218,7 +202,6 @@ void ShaderPrimitive::releaseAllShaders()
 	RELEASE(m_frameForRectTypesVS);
 	RELEASE(m_frameForLineVS);
 	RELEASE(m_linePS_ULCursor);
-	RELEASE(m_PSStyleLine_points);
 	RELEASE(m_PSStyleLine_dashed);
 	RELEASE(m_triFilRVS_line);
 	RELEASE(m_triFilVS_line);
