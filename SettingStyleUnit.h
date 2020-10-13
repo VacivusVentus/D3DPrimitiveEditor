@@ -34,8 +34,10 @@ __published:
 	void __fastcall widthLineUpDownChanging(TObject *Sender, bool &AllowChange);
 	void __fastcall lineStyleComboBoxChange(TObject *Sender);
     void __fastcall setAngleButtonClick(TObject *Sender);
+	void __fastcall FormHide(TObject *Sender);
 private:
 	Primitive *primitive;
+    bool skip;
 public:
 	virtual __fastcall TSettingStyleDialog(TComponent* AOwner);
 	void __fastcall setPrimitive(Primitive *primitive);

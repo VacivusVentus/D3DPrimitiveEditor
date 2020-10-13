@@ -9,6 +9,7 @@ object SettingStyleDialog: TSettingStyleDialog
   ParentFont = True
   OldCreateOrder = True
   Position = poScreenCenter
+  OnHide = FormHide
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel

@@ -142,6 +142,7 @@ void __fastcall TMainForm::openXMLToolClick(TObject *Sender)
 
 		delete xml;
 		xml = NULL;
+        primitiveManager->resetSkipMove();
 	}
 }
 

@@ -39,7 +39,9 @@ public:
         return primitives;
     }
     void __fastcall getMaxXY(float &x, float &y);
-    void __fastcall getSelectedRect(float *&rect);
+	void __fastcall getSelectedRect(float *&rect);
+
+	void resetSkipMove() {skipmove = false;operationID = NONE; current = NULL;}
 
 protected:
     void updateGroupSelect();
@@ -47,12 +49,12 @@ protected:
 
 private:
     std::vector<Primitive*>primitives;
-    std::vector<Primitive*>selected;
+	std::vector<Primitive*>selected;
 
     Primitive *underCursor;
     bool skipmove;
 
-    Primitive *current;
+	Primitive *current;
     ID3D11DeviceContext *m_context;
     OperationID operationID;
 	bool leftButtonDown;

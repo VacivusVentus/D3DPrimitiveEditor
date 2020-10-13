@@ -11,6 +11,7 @@ TSettingStyleDialog *SettingStyleDialog;
 // ---------------------------------------------------------------------
 __fastcall TSettingStyleDialog::TSettingStyleDialog(TComponent* AOwner) : TForm(AOwner)
 {
+	skip = true;
 }
 
 // ---------------------------------------------------------------------
@@ -33,11 +34,14 @@ void __fastcall TSettingStyleDialog::setFillColorButtonClick(TObject *Sender)
 void __fastcall TSettingStyleDialog::setPrimitive(Primitive *primitive)
 {
 	this->primitive = primitive;
-	widthLineUpDown->Position = *primitive->getWidthLine();
+	auto widthline = primitive->getWidthLine();
+	Application->ProcessMessages();
+	widthLineUpDown->Position = widthline[0];
 	widthLineLabel->Caption = IntToStr(widthLineUpDown->Position);
 	LineStyle *ls = primitive->getLineStyle();
 	lineStyleComboBox->ItemIndex = *ls;
 	angleLabelEdit->Text = FloatToStr(*primitive->getAngle());
+	skip = false;
 }
 
 void __fastcall TSettingStyleDialog::setPenColorButtonClick(TObject *Sender)
@@ -57,8 +61,9 @@ void __fastcall TSettingStyleDialog::setPenColorButtonClick(TObject *Sender)
 // ---------------------------------------------------------------------------
 
 void __fastcall TSettingStyleDialog::widthLineUpDownChanging(TObject *Sender, bool &AllowChange)
-
 {
+	if (skip)
+		return;
 	widthLineLabel->Caption = IntToStr(widthLineUpDown->Position);
 	int *v = primitive->getWidthLine();
 	v[0] = widthLineUpDown->Position;
@@ -78,5 +83,12 @@ void __fastcall TSettingStyleDialog::setAngleButtonClick(TObject *Sender)
 {
 	*primitive->getAngle() = StrToFloat(angleLabelEdit->Text);
 	primitive->updateResource();
+}
+
+// ---------------------------------------------------------------------------
+void __fastcall TSettingStyleDialog::FormHide(TObject *Sender)
+{
+
+	skip = true;
 }
 // ---------------------------------------------------------------------------
