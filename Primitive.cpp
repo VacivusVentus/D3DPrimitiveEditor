@@ -48,7 +48,7 @@ Primitive::Primitive() : vars(RendererVars::getInstance()), cBufferVS(NULL), sha
 	memcpy(psBuffer.colors, colorlist, sizeof colorlist);
 	auto context = vars.getDeviceContext();
 	context->PSSetConstantBuffers(0, 1, &cBufferPS);
-    psBuffer.params[0] = widthline;
+	psBuffer.params[0] = widthline;
 	context->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
 	editMode = CREATE;
 }
@@ -61,19 +61,20 @@ void Primitive::updateResource(bool fromang)
 {
 	buffervs.params[1] = widthline; // толщина линии для рассчета координат
 	psBuffer.params[0] = 1.0f;
-	for (int i = 2; i < widthline; i++) {
-		psBuffer.params[0] *= 1.0f + 0.1f; //перасчет выделямых пикселей
+	for (int i = 2; i < widthline; i++)
+	{
+		psBuffer.params[0] *= 1.0f + 0.1f; // перасчет выделямых пикселей
 	}
 	psBuffer.params[0] = widthline;
 	vars.getDeviceContext()->UpdateSubresource(cBufferPS, 0, 0, &psBuffer, 0, 0);
-	if (fromang)         //Обновление значения угла из градусов в радианы или обратно
-	{                     //для отображения, редактирования и использование в шейдерах
+	if (fromang) // Обновление значения угла из градусов в радианы или обратно
+	{ // для отображения, редактирования и использование в шейдерах
 		buffervs.params[0] = angle * M_PI / 180.0;
 	}
 	else
 	{
 		angle = buffervs.params[0] * 180.0 / M_PI;
-    }
+	}
 
 	vars.getDeviceContext()->UpdateSubresource(cBufferVS, 0, 0, &buffervs, 0, 0);
 }
@@ -184,9 +185,17 @@ void __fastcall Primitive::dragEditMouse(float x, float y)
 	float dx = begin[0] - start[0];
 	float dy = begin[1] - start[1];
 
-	float coord[] =
-	{buffervs.coord[0] - buffervs.coord[2], buffervs.coord[1] - buffervs.coord[3],
-		buffervs.coord[0] + buffervs.coord[2], buffervs.coord[1] + buffervs.coord[3]};
+	float *coord = getCoords();
+	float correctrect[4];
+	memcpy(correctrect, coord, sizeof correctrect);
+	// ------------------------------------------------
+	{
+		float *cl = correctrect;
+		rotateCoordToModelAxisDirect(coord[0], coord[1], cl);
+		cl = &correctrect[2];
+		rotateCoordToModelAxisDirect(coord[2], coord[3], cl);
+	}
+	// ------------------------------------------------
 	bool recalcCoord = false;
 	if (editMode == EditMode::Move)
 	{
@@ -218,13 +227,36 @@ void __fastcall Primitive::dragEditMouse(float x, float y)
 		coord[2] += dx;
 		recalcCoord = true;
 	}
+	float ncoord[4];
 	if (recalcCoord)
 	{
-		buffervs.coord[0] = (coord[0] + coord[2]) / 2.0f;
-		buffervs.coord[1] = (coord[1] + coord[3]) / 2.0f;
-		buffervs.coord[2] = (std::max(coord[0], coord[2]) - std::min(coord[0], coord[2])) / 2.0f;
-		buffervs.coord[3] = (std::max(coord[1], coord[3]) - std::min(coord[1], coord[3])) / 2.0f;
-		memcpy(center, buffervs.coord, sizeof(buffervs.coord) >> 1);
+		// ------------------------------------------------
+		{
+			float *cl = ncoord;
+			rotateCoordToModelAxisDirect(coord[0], coord[1], cl);
+			cl = &ncoord[2];
+			rotateCoordToModelAxisDirect(coord[2], coord[3], cl);
+		}
+		// ------------------------------------------------
+		if (editMode == EditMode::ResizeX0 || editMode == EditMode::ResizeY0)
+		{
+			float d[] =
+			{correctrect[2] - ncoord[2], correctrect[3] - ncoord[3]};
+			coord[0] += d[0];
+			coord[1] += d[1];
+			coord[2] += d[0];
+			coord[3] += d[1];
+		}
+		else
+		{
+			float d[] =
+			{correctrect[0] - ncoord[0], correctrect[1] - ncoord[1]};
+			coord[0] += d[0];
+			coord[1] += d[1];
+			coord[2] += d[0];
+			coord[3] += d[1];
+		}
+		convertRectToCoord();
 	}
 	startEditXY[0] = x;
 	startEditXY[1] = y;

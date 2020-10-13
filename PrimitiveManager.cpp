@@ -74,7 +74,7 @@ void PrimitiveManager::drawPrimitives(HWND handle)
 void __fastcall PrimitiveManager::leftMouseDown(int x, int y, bool shift)
 {
 
-	if (operationID == OperationID::ADDNEWPRIMITIVE) //Создание нового примитива
+	if (operationID == OperationID::ADDNEWPRIMITIVE) // Создание нового примитива
 	{
 		current->setFirstPoint(x, y);
 
@@ -165,44 +165,47 @@ void __fastcall PrimitiveManager::moveCursor(int x, int y)
 			rectPrimitive->updateResource(false);
 		}
 	}
-	if (operationID == OperationID::ADDNEWPRIMITIVE)
-	{
-		current->setSecondPoint(x, y);
-	}
 	else
 	{
-		if (underCursor)
+		if (operationID == OperationID::ADDNEWPRIMITIVE)
 		{
-			underCursor->resetUnderCursor();
-			underCursor = NULL;
-			SendMessage(hwnd, WM_USER + 2, EditMode::CREATE, 0);
+			current->setSecondPoint(x, y);
 		}
-
-		for (auto p : primitives)
+		else
 		{
-			if (p->isUnderCursor(x, y))
+			if (underCursor)
 			{
-				if (underCursor)
+				underCursor->resetUnderCursor();
+				underCursor = NULL;
+				SendMessage(hwnd, WM_USER + 2, EditMode::CREATE, 0);
+			}
+
+			for (auto p : primitives)
+			{
+				if (p->isUnderCursor(x, y))
 				{
-					underCursor->resetUnderCursor();
-					underCursor = NULL;
+					if (underCursor)
+					{
+						underCursor->resetUnderCursor();
+						underCursor = NULL;
+					}
+					underCursor = p;
+					underCursor->setUnderCursor();
 				}
-				underCursor = p;
-				underCursor->setUnderCursor();
 			}
-		}
-		if (selected.size() > 1)
-		{
-			if (rectPrimitive->isUnderCursor(x, y))
+			if (selected.size() > 1)
 			{
-				underCursor = rectPrimitive;
-				rectPrimitive->setUnderCursor();
+				if (rectPrimitive->isUnderCursor(x, y))
+				{
+					underCursor = rectPrimitive;
+					rectPrimitive->setUnderCursor();
+				}
 			}
-		}
-		if(selected.size() && underCursor)
-		{
+			if (selected.size() && underCursor)
+			{
 
-			SendMessage(hwnd, WM_USER + 2, underCursor->getCurEditMode(), 0);
+				SendMessage(hwnd, WM_USER + 2, underCursor->getCurEditMode(), 0);
+			}
 		}
 	}
 }
@@ -252,8 +255,8 @@ void __fastcall PrimitiveManager::getMaxXY(float &x, float &y)
 	}
 }
 
-void __fastcall PrimitiveManager::getSelectedRect(float *&rect) //Определение максимальные и минимальные координаты,
-{                                                       //занимаемые примитивом
+void __fastcall PrimitiveManager::getSelectedRect(float *&rect) // Определение максимальные и минимальные координаты,
+{ // занимаемые примитивом
 	if (selected.empty())
 	{
 		return;
